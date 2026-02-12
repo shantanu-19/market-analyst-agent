@@ -1,0 +1,13 @@
+# Core Agent Framework
+langchain>=0.3.0
+langchain-nvidia-ai-endpoints
+langchain-community
+
+# Brain & Tools
+tavily-python
+yfinance
+
+# UI & Environment
+streamlit
+python-dotenv
+pandas
