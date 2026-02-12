@@ -1,8 +1,7 @@
 streamlit
 langchain>=0.3.0
-langchain-classic  # <--- CRITICAL ADDITION
 langchain-nvidia-ai-endpoints
 langchain-community
-tavily-python
+langchainhub      # <--- THIS IS THE MISSING PIECE
 yfinance
 python-dotenv

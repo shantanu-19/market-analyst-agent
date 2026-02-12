@@ -1,8 +1,7 @@
 from langchain_nvidia_ai_endpoints import ChatNVIDIA
-# Import from classic to fix the Streamlit Cloud error
-from langchain_classic.agents import create_react_agent, AgentExecutor
+from langchain.agents import create_react_agent, AgentExecutor
 from langchain_core.tools import Tool 
-from langchain import hub
+import langchainhub as hub # <--- THE CORRECT MODERN IMPORT
 from tools import search_tool, get_market_analysis
 
 def get_market_agent():
@@ -13,9 +12,9 @@ def get_market_agent():
         Tool(name="Market_Data", func=get_market_analysis, description="Get stock trends.")
     ]
     
+    # This remains the same, but 'hub' now refers to 'langchainhub'
     prompt = hub.pull("hwchase17/react")
     
-    # This now uses the stable legacy engine via langchain-classic
     agent = create_react_agent(llm, tools, prompt)
     
     return AgentExecutor(
