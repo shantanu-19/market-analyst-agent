@@ -1,9 +1,7 @@
 streamlit
-langchain>=1.1.0
-langchain-classic       # <--- THIS IS THE FIX for AgentExecutor
-langchainhub            # <--- THIS IS THE FIX for hub
 langchain-nvidia-ai-endpoints
-langchain-community
-tavily-python
+langchain-tavily      # <--- NEW OFFICIAL PACKAGE
+langchain-classic
+langchainhub
 yfinance
 python-dotenv

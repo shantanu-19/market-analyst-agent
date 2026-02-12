@@ -1,18 +1,14 @@
 import yfinance as yf
-from langchain_community.tools.tavily_search import TavilySearchResults
-from langchain_community.utilities.tavily_search import TavilySearchAPIWrapper # <--- ADD THIS
+from langchain_tavily import TavilySearchResults # Use the new package
 from langchain.tools import tool
 
-# 1. Create the Wrapper first
-# This is where the parameters k, search_depth, and topic now live
-tavily_wrapper = TavilySearchAPIWrapper(
-    k=5, 
+# Initialize using the NEW package structure
+# Note: 'k' is now 'max_results' in the 2026 integration
+search_tool = TavilySearchResults(
+    max_results=5, 
     search_depth="advanced", 
     topic="finance"
 )
-
-# 2. Initialize the Tool using the wrapper
-search_tool = TavilySearchResults(api_wrapper=tavily_wrapper)
 
 @tool
 def get_market_analysis(symbol: str):
