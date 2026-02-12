@@ -1,19 +1,17 @@
 import streamlit as st
 from agent_logic import get_market_agent
 
-st.title("🤖 Intelligent Market Analyst")
-st.markdown("Enter a stock symbol to trigger an autonomous investigation.")
+st.set_page_config(page_title="Intelligent Market Analyst", layout="wide")
+st.title("🤖 NVIDIA Agentic Analyst")
 
-symbol = st.text_input("Stock Symbol (e.g., NVDA, AAPL)", "NVDA")
+symbol = st.text_input("Enter Ticker (e.g., NVDA, BTC-USD):", "NVDA")
 
-if st.button("Run Autonomously"):
-    with st.spinner(f"Agent is researching {symbol}..."):
-        agent = get_market_agent()
-        # The prompt that triggers the agentic loop
-        prompt = (f"Check the recent performance of {symbol}. "
-                  f"If there are significant moves, search the web to explain why. "
-                  f"Provide a summary of the 'Reason for Movement'.")
-        
-        response = agent.run(prompt)
-        st.subheader("Agent's Findings")
-        st.write(response)
+if st.button("Start Autonomous Research"):
+    agent_executor = get_market_agent()
+    
+    with st.chat_message("assistant"):
+        st_callback = st.container() # To show thoughts live
+        response = agent_executor.invoke({
+            "input": f"Analyze the recent price movement for {symbol}. Find the news that explains why it moved."
+        })
+        st.write(response["output"])
