@@ -1,17 +1,19 @@
 import streamlit as st
 from agent_logic import get_market_agent
+from dotenv import load_dotenv
 
-st.set_page_config(page_title="Intelligent Market Analyst", layout="wide")
-st.title("🤖 NVIDIA Agentic Analyst")
+load_dotenv()
 
-symbol = st.text_input("Enter Ticker (e.g., NVDA, BTC-USD):", "NVDA")
+st.set_page_config(page_title="NVIDIA Analyst", layout="wide")
+st.title("🤖 Intelligent Market Analyst")
 
-if st.button("Start Autonomous Research"):
-    agent_executor = get_market_agent()
-    
-    with st.chat_message("assistant"):
-        st_callback = st.container() # To show thoughts live
-        response = agent_executor.invoke({
-            "input": f"Analyze the recent price movement for {symbol}. Find the news that explains why it moved."
-        })
-        st.write(response["output"])
+symbol = st.text_input("Enter Ticker:", "NVDA")
+
+if st.button("Run Research"):
+    with st.spinner("Agent is working..."):
+        try:
+            agent = get_market_agent()
+            response = agent.invoke({"input": f"Analyze {symbol} price and news."})
+            st.write(response["output"])
+        except Exception as e:
+            st.error(f"Error: {e}")

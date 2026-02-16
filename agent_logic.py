@@ -1,24 +1,25 @@
-import os
-import langchainhub as hub # Correct 2026 hub import
-from langchain_nvidia_ai_endpoints import ChatNVIDIA, NVIDIAEmbeddings
-from langchain_classic.agents import create_react_agent, AgentExecutor # Fixed Import
-from langchain_core.tools import Tool 
+from langchain_nvidia_ai_endpoints import ChatNVIDIA
+from langchain_classic.agents import create_react_agent, AgentExecutor
 from tools import search_tool, get_market_analysis
 
+# --- UNIVERSAL HUB IMPORT ---
+try:
+    from langchainhub import hub
+except ImportError:
+    import langchainhub as hub
+# ----------------------------
+
 def get_market_agent():
-    # Your NVIDIA Brain
+    # Brain: Llama 3.1 via NVIDIA NIM
     llm = ChatNVIDIA(model="meta/llama-3.1-70b-instruct", temperature=0)
     
-    # Your Tools
-    tools = [
-        Tool(name="Web_Search", func=search_tool.run, description="Search live news."),
-        Tool(name="Market_Data", func=get_market_analysis, description="Get stock trends.")
-    ]
+    # Use the tools defined in tools.py
+    tools = [search_tool, get_market_analysis]
     
-    # Pulling from the hub using the new 'langchainhub' driver
-    prompt = hub.pull("hwchase17/react")
+    # This will now work regardless of the import style
+    prompt = hub.pull("hwchase17/react") 
     
-    # Logic built with classic compatibility
+    # Build the agent
     agent = create_react_agent(llm, tools, prompt)
     
     return AgentExecutor(

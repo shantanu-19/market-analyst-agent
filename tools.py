@@ -1,10 +1,13 @@
+import os
 import yfinance as yf
-from langchain_tavily import TavilySearchResults # Use the new package
+from langchain_tavily import TavilySearch
 from langchain.tools import tool
+from dotenv import load_dotenv
 
-# Initialize using the NEW package structure
-# Note: 'k' is now 'max_results' in the 2026 integration
-search_tool = TavilySearchResults(
+load_dotenv()
+
+# Initialize search tool
+search_tool = TavilySearch(
     max_results=5, 
     search_depth="advanced", 
     topic="finance"
@@ -14,7 +17,7 @@ search_tool = TavilySearchResults(
 def get_market_analysis(symbol: str):
     """
     Fetches the last 5 days of stock data for a given symbol. 
-    Use this to identify price trends before searching for news.
+    Input should be a stock ticker symbol like 'NVDA'.
     """
     try:
         ticker = yf.Ticker(symbol)
